@@ -5,7 +5,7 @@
 
 dateNow=$(date +"%Y-%m-%d")
 
-# Creates to temporary pipes so it can use the information recovered inside the heredoc
+# Creates two temporary pipes so it can use the information recovered inside the heredoc
 mkfifo mypipe
 mkfifo mypipe2
 

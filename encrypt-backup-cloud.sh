@@ -39,8 +39,8 @@ do
 done
 
 # Inserts values in the intranet database
-fecha=$(date +"%Y-%m-%d")
-query="insert into MetricaBackupArsys (Fecha, Kbytes, Satisfactoria) values ('$fecha', $sizeTotal, 1)"
+dateNow=$(date +"%Y-%m-%d")
+query="insert into BackupArsys (Date, Kbytes, Successful) values ('$dateNow', $sizeTotal, 1)"
 echo $query
 mysql -h 192.168.0.163 intranet -u root -pmypassword << EOF
 $query

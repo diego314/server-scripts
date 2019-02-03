@@ -102,8 +102,8 @@ while [ $copiadoOk -eq 0 ]; do
   else
   # El servidor serverName da a veces errores de copia. Si es así, esperamos 60 segundos y volvemos a intentarlo
 # Inserts values in the intranet database
-fecha=$(date +"%Y-%m-%d")
-query="INSERT INTO MetricaXmlFronturenc (Fecha, Satisfactoria) VALUES ('$fecha', 2)"
+dateNow=$(date +"%Y-%m-%d")
+query="INSERT INTO MetricaXmlFronturenc (Date, Successful) VALUES ('$dateNow', 2)"
 echo $query
 mysql -h 192.168.0.163 intranet -u root -pmypassword << EOF
 $query
@@ -132,8 +132,8 @@ while [ $copiadoOk -eq 0 ]; do
   else
   # fileServer no ha dado error nunca, pero por si acaso, hacemos igual que con serverName
 # Inserts values in the intranet database
-fecha=$(date +"%Y-%m-%d")
-query="INSERT INTO MetricaXmlFronturenc (Fecha, Satisfactoria) VALUES ('$fecha', 3)"
+dateNow=$(date +"%Y-%m-%d")
+query="INSERT INTO MetricaXmlFronturenc (Date, Successful) VALUES ('$dateNow', 3)"
 echo $query
 mysql -h 192.168.0.163 intranet -u root -pmypassword << EOF
 $query
@@ -149,7 +149,7 @@ mv "$carpetalocal"desencriptados/* "$carpetalocal"desencriptados2/
 if [[ $(date +%k) -eq 23 ]]; then
 # Inserts values in the intranet database
 fecha=$(date +"%Y-%m-%d")
-query="INSERT INTO MetricaXmlFronturenc (Fecha, Satisfactoria) VALUES ('$fecha', 1)"
+query="INSERT INTO MetricaXmlFronturenc (Date, Successful) VALUES ('$fecha', 1)"
 echo $query
 mysql -h 192.168.0.163 intranet -u root -pmypassword << EOF
 $query

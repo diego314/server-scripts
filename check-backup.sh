@@ -14,7 +14,8 @@
 successful=1
 declare -a backupNames=(Server1 SQLBackup Project2)
 declare -a backupFolders=(/home/server/Desktop/backup /mnt/SQLBackup /mnt/Project2)
-# We add a power of 2 to each successive backup, so we can have the result in a single numeric variable
+
+# Adds a power of 2 to each successive backup, so it can have the result in a single numeric variable
 declare -a numberToAdd=(1 2 4)
 
 
@@ -23,7 +24,7 @@ do
   # Looking for files not older than 2 days
   output=$(sudo -u sbackup find "${backupFolders[$i]}" -maxdepth 7 -mtime -2 -type f)
 
-  # If we can't find any, we send an alert email, and set the variable to save
+  # If it doesn't find any, sends an alert email, and set the variable to save
   # the error in the database
   if [ -z "$output" ]
   then
@@ -49,7 +50,7 @@ done
 # 7: SQL and Project2 server error
 # 8: Error in all three servers
 dateNow=$(date +"%Y-%m-%d")
-query="insert into checkBackup (Date, successful) values ('$dateNow', $successful)"
+query="insert into CheckBackup (Date, Successful) values ('$dateNow', $successful)"
 mysql -h 192.168.0.163 intranet -u root -pmypassword << EOF
 $query
 EOF

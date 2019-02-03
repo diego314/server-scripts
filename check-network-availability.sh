@@ -40,7 +40,7 @@ From: FileServer <alerts@companyname.com>
 To: alerts@companyname.es
 Subject: Internet down
 
-Aviso: Internet connection is offline on: $(date)
+Warning: Internet connection is offline on: $(date)
 
 EOF
 fi

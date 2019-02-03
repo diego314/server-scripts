@@ -4,17 +4,17 @@
 # and saves it in a log. If the used space exceeds the maximum
 #  threshold (85%), it sends an alert email
 
-# Calculate the disk space, and store it in variables
+# Calculates the disk space, and store it in variables
 total=$(df -h | grep /dev/sda1 | awk '{print $2}')
 total=${total//[TG]/}
 total=${total//,/.}
 
-# Calculate percentage
+# Calculates percentage
 #usado=$(df -h | grep /dev/sda1 | awk '{print $3}')
 used100=$(df -h | grep /dev/sda1 | awk '{print $5}')
 used100=${used100//%/}
 
-# Calculate free space
+# Calculates free space
 free=$(df -h | grep /dev/sda1 | awk '{print $4}')
 free=${free//[TG]/}
 free=${free//,/.}
@@ -27,7 +27,7 @@ mailTo=alerts@companyname.es
 mailFrom=alerts@companyname.com
 serverName=fileServer
 
-# Insert results in the intranet database
+# Inserts results in the intranet database
 dateNow=$(date +"%Y-%m-%d")
 query="insert into $resultsTable (Date, Total, Free, Used100) values ('$dateNow', $total, $free, $used100)"
 mysql -h $SQLServer intranet -u root -$passwordSql << EOF
