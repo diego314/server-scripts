@@ -6,12 +6,12 @@
 
 # Local DDBB Password
 passwordDB=pmypassword
-# Where to sump the database
+# Where to dump the database
 dumpDB=/home/sbackup/scripts/copia_BBDD_Sbackup.sql.gz
 
 # Remote DDBB Password
 passwordDBNetwork=pmypassword
-# Where to sump the database
+# Where to dump the database
 dumpDBNetwork=/home/httpmysql/copia_BBDD_Httpmysql.sql.gz
 
 # Backup server data

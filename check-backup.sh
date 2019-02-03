@@ -28,11 +28,11 @@ do
   if [ -z "$output" ]
   then
 ssmtp -oi alerts@companyname.es <<-EOF
-From: Servidor Backup <alerts@companyname.com>
+From: Backup Server <alerts@companyname.com>
 To: alerts@companyname.es
-Subject: ${backupNames[$i]} desactualizado
+Subject: ${backupNames[$i]} outdated
 
-Aviso: la copia de seguridad del servidor ${backupNames[$i]} esta desactualizada en $(date)
+Warning: The backup in the server: ${backupNames[$i]} is outdated $(date)
 EOF
 
   successful=$((successful+${numberToAdd[$i]}))
@@ -48,8 +48,8 @@ done
 # 6: Project2 and server1 error
 # 7: SQL and Project2 server error
 # 8: Error in all three servers
-fecha=$(date +"%Y-%m-%d")
-query="insert into MetricaCheckBackup (Fecha, successful) values ('$fecha', $successful)"
+dateNow=$(date +"%Y-%m-%d")
+query="insert into checkBackup (Date, successful) values ('$dateNow', $successful)"
 mysql -h 192.168.0.163 intranet -u root -pmypassword << EOF
 $query
 EOF

@@ -36,18 +36,18 @@ if [[ $networkOK -ne 1 ]]; then
 
 # Sending a warning email to alerts@companyname.es
 ssmtp -oi alerts@companyname.es <<-EOF
-From: Servidor fileServer <alerts@companyname.com>
+From: FileServer <alerts@companyname.com>
 To: alerts@companyname.es
-Subject: Internet caido
+Subject: Internet down
 
-Aviso: La conexion a internet esta caida en: $(date)
+Aviso: Internet connection is offline on: $(date)
 
 EOF
 fi
 
 # Inserts values in the intranet database
-fecha=$(date +"%Y-%m-%d")
-query="insert into MetricaInternet (Fecha, Satisfactoria, Google, LHC, Ismycomputeron) values ('$fecha', $noProblemFound, $google, $lhc, $iscon)"
+dateNow=$(date +"%Y-%m-%d")
+query="insert into Internet (Date, NoProblemFound, Google, LHC, Ismycomputeron) values ('$dateNow', $noProblemFound, $google, $lhc, $iscon)"
 echo $query
 mysql -h 192.168.0.163 intranet -u root -pmypassword << EOF
 $query

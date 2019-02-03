@@ -15,7 +15,7 @@ declare -a databasesToEncrypt=(ControlSeguridad.bak Cris.bak Defseguridad.bak GV
 for i in "${!databasesToEncrypt[@]}"
 do
   openssl enc -aes-256-cbc -e -in "${databasesToEncrypt[$i]}" -out "${databasesToEncrypt[$i]}.enc" -pass pass:"$passwordEnc"
-  echo "encriptada base de datos ${databasesToEncrypt[$i]}"
+  echo "finished encrypting ${databasesToEncrypt[$i]} database"
 done
 
 # Uploads the databases listed on the array databasesToEncrypt

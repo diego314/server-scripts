@@ -3,7 +3,7 @@
 # Connects to a windows server with smbclient and checks both hard disks free space
 # A shared folder in each disk is needed on the windows server
 
-fecha=$(date +"%Y-%m-%d")
+dateNow=$(date +"%Y-%m-%d")
 
 # Creates to temporary pipes so it can use the information recovered inside the heredoc
 mkfifo mypipe
@@ -23,7 +23,7 @@ rm mypipe2
 totalokC=$(echo "scale=2; $totalBlockC * $sizeBlockC / 1073741824" | bc -l)
 availableokC=$(echo "scale=2; $availableBlockC * $sizeBlockC / 1073741824" | bc -l)
 echo "total C: $totalokC"
-echo "disponible C: $availableokC"
+echo "available C: $availableokC"
 
 # Saves the heredoc result on variables for the second disk
 smbclient //192.168.0.37/Compartida adminPassword -U administrator -c du | grep block > mypipe &
@@ -39,13 +39,13 @@ rm mypipe
 totalokD=$(echo "scale=2; $totalBlockD * $sizeBlockD / 1073741824" | bc -l)
 availableokD=$(echo "scale=2; $availableBlockD * $sizeBlockD / 1073741824" | bc -l)
 echo "total D: $totalokD"
-echo "disponible D: $availableokD"
+echo "available D: $availableokD"
 
-usado100c=$(echo "($availableokC * 100) / $totalokC" | bc)
-usado100d=$(echo "($availableokD * 100) / $totalokD" | bc)
+used100c=$(echo "($availableokC * 100) / $totalokC" | bc)
+used100d=$(echo "($availableokD * 100) / $totalokD" | bc)
 
 # Inserts values in the intranet database
-query="insert into MetricaEspacioSauron (Fecha, TotalC, LibreC, Usado100C, TotalD, LibreD, Usado100C) values ('$fecha', $totalokC, $availableokC, $usado100c, $totalokD, $availableokD, $usado100d)"
+query="insert into MetricaEspacioSauron (Date, TotalC, FreeC, Used100C, TotalD, FreeD, Used100D) values ('$dateNow', $totalokC, $availableokC, $used100c, $totalokD, $availableokD, $used100d)"
 echo $query
 mysql -h 192.168.0.163 intranet -u root -pmypassword << EOF
 $query
