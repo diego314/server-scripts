@@ -2,7 +2,7 @@
 
 # Checks if the internet connection is alive. We make a wget
 # from three different known servers. If none responds, it
-# probably means thatthe connection is offline
+# probably means that the connection is offline
 
 # Variables
 networkOK=0

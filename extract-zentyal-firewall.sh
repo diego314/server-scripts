@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Extracts from syslog the number of blocked packages by zentyal firewall
+# Extracts from the syslog the number of blocked packages by zentyal firewall
 
 # Variables
 dateTemp=""

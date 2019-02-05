@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Mcript makes a dump (backup) on zip format from  the local mysql
-# databases, and copies this file into the assigned backup server.
-# Then it does another backup from a server in the network.
+# Makes a dump (backup) on zip format from  the local mysql
+# databases, and a remote server in the network and copies these
+# files into the assigned backup server.
 
 # Local DDBB Password
 passwordDB=pmypassword

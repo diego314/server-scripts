@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Extracts from syslog the number priority 1 attacks detected by zentyal IDS
+# Extracts from the syslog the number priority 1 attacks detected by zentyal IDS
 
 # Variables
 dateTemp=""

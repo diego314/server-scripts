@@ -2,7 +2,7 @@
 
 # Checks the available space on the server's hard disk
 # and saves it in a log. If the used space exceeds the maximum
-#  threshold (85%), it sends an alert email
+# threshold (85%), it sends an alert email
 
 # Calculates the disk space, and store it in variables
 total=$(df -h | grep /dev/sda1 | awk '{print $2}')

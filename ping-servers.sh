@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Sends a ping to any of the servers on a list, and sends an
+# Sends a ping to all of the servers on a list, and sends an
 # email if it finds any of them are not responding
 
 # IP list:
