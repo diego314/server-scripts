@@ -3,8 +3,14 @@
 # Este script descarga de la cuenta FTP los ficheros del proyecto Frontur, y los
 # mueve a un servidor local, para finalmente borrarlos del FTP
 
+# The problem when getting files from a FTP is that you can't just
+# download all files and then delete all files from the server, 
+# because new files could have appeared while downloading, so this 
+# script gets first a list of all current files, and then downloads 
+# and deletes each one
+
 # Variables
-noProblemFound=1 # 1: sin problemas, 2: error serverName, 3: error fileServer
+noProblemFound=1 # 1: sin problemas, 2: error fileServer, 3: error fileServer2
 carpetaremotaNoEnc="/Frontur/"
 carpetalocal="/home/companyname/frontur/"
 servidorftp="ftp.companyname.es"
@@ -67,15 +73,15 @@ chmod 777 ftpListNoEnc
 ./ftpListNoEnc
 rm ftpListNoEnc
 
-# Ya descargados los ficheros, los copiamos a serverName
+# Ya descargados los ficheros, los copiamos a fileServer
 cd "$carpetalocal"noencriptados/
 copiadoOk=0
 while [ $copiadoOk -eq 0 ]; do
-  smbclient //serverName/TRABAJOS adminPassword -U administrator -c "cd IET/$anyo/LLEG_DIA; recurse; prompt; mput *"
+  smbclient //fileServer/TRABAJOS adminPassword -U administrator -c "cd IET/$anyo/LLEG_DIA; recurse; prompt; mput *"
   if [ $? -eq 0 ]; then
     copiadoOk=1
   else
-  # El servidor serverName da a veces errores de copia. Si es así, esperamos 60 segundos y volvemos a intentarlo
+  # El servidor fileServer da a veces errores de copia. Si es así, esperamos 60 segundos y volvemos a intentarlo
 # Inserts values in the intranet database
 fecha=$(date +"%Y-%m-%d")
 query="INSERT INTO MetricaXmlFrontur (Date, Successful) VALUES ('$fecha', 2)"
@@ -111,14 +117,14 @@ done
 # Movemos los ficheros a la carpeta del día
 mv *.XML *.xml "$carpetalocal"noencriptados/"$anyomes"/"$dia"
 
-# Copiamos los ficheros al servidor fileServer
+# Copiamos los ficheros al servidor fileServer2
 copiadoOk=0
 while [ $copiadoOk -eq 0 ]; do
-  smbclient //fileServer/trabajos adminPassword -U administrator -c "cd IET; recurse; prompt; mput *"
+  smbclient //fileServer2/trabajos adminPassword -U administrator -c "cd IET; recurse; prompt; mput *"
   if [ $? -eq 0 ]; then
     copiadoOk=1
   else
-  # fileServer no ha dado error nunca, pero por si acaso, hacemos igual que con serverName
+  # fileServer2 no ha dado error nunca, pero por si acaso, hacemos igual que con fileServer
 # Inserts values in the intranet database
 fecha=$(date +"%Y-%m-%d")
 query="INSERT INTO MetricaXmlFrontur (Date, Successful) VALUES ('$fecha', 3)"

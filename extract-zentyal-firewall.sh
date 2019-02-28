@@ -8,31 +8,29 @@ datePrevious=""
 dateNow=""
 total=0
 
-# Creamos una pipe temporal para poder acceder a las variables creadas dentro del bucle
+# Creates a temporary pipe so it can access the variables when inside the loop
 mkfifo mypipe
 
-# Extraemos del fichero las líneas que contienen "zentyal-firewall" y "drop"
+# Extracts from syslog the lines containing "zentyal-firewall" y "drop"
 cat /var/log/syslog.1 | grep zentyal-firewall | grep drop > mypipe &
 while read linea; do
+  dateTemp=$(echo $linea | awk '{print $1 $2}')
+  dateNow=$(date -d "$dateTemp" +%F)
   if [ -z "$dateNow" ]
   then
-    # Si ésta es la primera línea que leemos, inicializamos las variables de dateNow
-    dateTemp=$(echo $linea | awk '{print $1 $2}')
-    dateNow=$(date -d "$dateTemp" +%F)
+    # Reading the very first line, initializing dateNow variable
     datePrevious="$dateNow"
     total=1
   else
-    # No es la primera linea, comprobamos si es la misma dateNow que antes
-    dateTemp=$(echo $linea | awk '{print $1 $2}')
-    dateNow=$(date -d "$dateTemp" +%F)
+    # Not the very first line, checking if the date is the same as the previous one
     if [ "$dateNow" != "$datePrevious" ]
     then
-      # Ya hemos terminado de recoger datos para ésta dateNow, guardamos el dato en sql
-      query="delete from MetricaFirewall where Date='$dateNow'"
+      # Finished getting data for this date, saving data on sql
+      query="delete from Firewall where Date='$dateNow'"
 mysql -h 192.168.0.163 intranet -u root -pmypassword << EOF
 $query
 EOF
-      query="insert into MetricaFirewall (Date, Number) values ('$dateNow', $total)"
+      query="insert into Firewall (Date, Number) values ('$dateNow', $total)"
 mysql -h 192.168.0.163 intranet -u root -pmypassword << EOF
 $query
 EOF
@@ -47,14 +45,13 @@ done < mypipe
 
 if [ $total -gt 0 ]
 then
-# Si hemos encontrado datos, borramos del mySql los datos con la misma dateNow,
-# por si acaso, e insertamos el valor obtenido
-query="delete from MetricaFirewall where Date='$dateNow'"
+# There was some data found. First deletes from mysql the data with the same dateNow value, and inserts the new found value
+query="delete from Firewall where Date='$dateNow'"
 mysql -h 192.168.0.163 intranet -u root -pmypassword << EOF
 $query
 EOF
 
-query="insert into MetricaFirewall (Date, Number) values ('$dateNow', $total)"
+query="insert into Firewall (Date, Number) values ('$dateNow', $total)"
 mysql -h 192.168.0.163 intranet -u root -pmypassword << EOF
 $query
 EOF

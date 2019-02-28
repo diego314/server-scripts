@@ -4,6 +4,12 @@
 # y los copia a dos servidores locales, un Linux y un Windows, para
 # finalmente borrarlos del servidor FTP
 
+# The problem when getting files from a FTP is that you can't just
+# download all files and then delete all files from the server, 
+# because new files could have appeared while downloading, so this 
+# script gets first a list of all current files, and then downloads 
+# and deletes each one
+
 # Variables
 noProblemFound=1 # 1: sin problemas, 2: error serverName, 3: error fileServer
 carpetaremotaEnc="/FronturNuevaEncript/"
