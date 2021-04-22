@@ -1,4 +1,4 @@
-# Server scripts
+# Bash server scripts
 A few scripts I made for checking the status and doing a few jobs on the company servers, keeping the intranet database updated with the results, and sending an email to the sysadmin if a problem is found.
 
 (Currently translating everything into English)
